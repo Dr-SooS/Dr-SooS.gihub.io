@@ -1,0 +1,77 @@
+mat-sidenav-container {
+    width: 100%;
+    height: 100%;
+}
+
+mat-sidenav {
+    width: 400px;
+    background: rgb(41, 41, 51);
+    color: white;
+}
+
+#user {
+    padding: 20px 20px;
+    overflow: hidden;
+}
+
+#user img {
+    float: left;
+    border: 3px solid white;
+    border-radius: 60px;
+    padding: 3px;
+}
+
+#user p {
+    float: left;
+    margin: 0;
+    margin-left: 30px;
+    margin-top: 25px;
+    font-size: 30px;
+}
+
+#projects {
+    padding: 50px 20px;
+}
+
+.project {
+    box-sizing: border-box;
+    font-size: 20px;
+    margin: 10px 0;
+    padding: 5px 10px;
+    height: 35px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.project span {
+    float: right;
+}
+
+.project:hover {
+    border-radius: 10px;
+    background: rgb(107, 107, 153);
+}
+
+#project-plus {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+#project-toolbar button {
+    border-radius: 120px;
+}
+
+.date-block {
+    width: 80%;
+    margin: auto;
+}
+
+#tasks mat-card {
+    border-radius: 10px;
+}
+
+.task {
+    margin: 15px 0;
+    cursor: pointer ;
+}
