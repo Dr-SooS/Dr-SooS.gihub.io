@@ -1,65 +1,44 @@
-import {Component, OnInit, ElementRef, ViewChild, Inject} from '@angular/core';
-import { CookieService } from 'ng2-cookies';
-import { User } from './user';
-import { Project } from './project';
+import {Component, OnInit} from '@angular/core';
+import {CookieService} from 'ng2-cookies';
+import {User} from './user';
+import {Project} from './project';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {UserService} from './user.service';
+import {ProjectsService} from './projects.service';
+import {Task} from './task';
+import {TasksService} from './tasks.service';
 
 @Component({
-  selector: 'app-root',
-  providers: [ CookieService ],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  host = 'http://cheephs.pythonanywhere.com/';
-  user: User;
-  projects: Project[];
-  newProjectTitle: string;
+    host = 'http://cheephs.pythonanywhere.com/';
+    user: User;
+    projects: Project[];
+    tasks: Task[];
+    newProjectTitle: string;
 
-  createProject() {
-    this.http.post(
-      this.host + 'api/projects/project',
-      {'session': this.cookieService.get('session'), 'Project': {'title': this.newProjectTitle}}).subscribe(data => {
-        this.http.get(
-          this.host + 'api/projects',
-          {params: new HttpParams().set('session', this.cookieService.get('session'))
-          }).subscribe(data => {
-          this.projects = data['projects'] as Project[];
-        });
-    });
-  }
+    constructor(
+        public cookieService: CookieService,
+        private http: HttpClient,
+        public userService: UserService,
+        public projectsService: ProjectsService,
+        public tasksService: TasksService
+    ) {}
 
-  constructor( public cookieService: CookieService, private http: HttpClient) {}
-  ngOnInit(): void {
-    if (!this.cookieService.check('session')) {
-      this.http.get(this.host + 'api/signup').subscribe(data => {
-        this.cookieService.set('session', data['session']);
-
-        this.http.get(this.host + 'api/account', {params: new HttpParams().set('session', data['session'])}).subscribe(data => {
-          this.user = data as User;
-
-          this.http.get(
-            this.host + 'api/projects',
-            {params: new HttpParams().set('session', this.cookieService.get('session'))}
-            ).subscribe(data => {
-              this.projects = data as Project[];
+    ngOnInit(): void {
+        this.userService.getUser().subscribe(data => {
+            this.user = data;
+            this.projectsService.getProjects().subscribe(data => {
+                this.projects = data['projects'];
             });
         });
-      });
-    } else {
-      this.http.get(
-        this.host + 'api/account',
-        {params: new HttpParams().set('session', this.cookieService.get('session'))}
-        ).subscribe(data => {
-        this.user = data as User;
-
-        this.http.get(
-          this.host + 'api/projects',
-          {params: new HttpParams().set('session', this.cookieService.get('session'))
-          }).subscribe(data => {
-          this.projects = data['projects'] as Project[];
-        });
-      });
     }
-  }
+    getTasks(project_id: number): void {
+        this.tasksService.getTasks(project_id).subscribe(data => {
+           this.tasks = data['tasks'];
+        });
+    }
 }

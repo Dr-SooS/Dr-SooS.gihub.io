@@ -5,13 +5,13 @@
             <p>{{ user.username }}</p>
         </div>
         <div id="projects">
-            <div class="project" *ngFor="let project of projects"> {{ project['Project'].title }} <span>{{ project['Project'].task_count }}</span></div>
+            <div class="project" *ngFor="let project of projects" (click)="getTasks(project['Project'].id)"> {{ project['Project'].title }} <span>{{ project['Project'].task_count }}</span></div>
         </div>
         <div id="new-project-form">
           <mat-form-field>
             <input matInput placeholder="New Title" [(ngModel)]="newProjectTitle">
           </mat-form-field>
-          <button mat-button (click)="createProject()">OK</button>
+          <button mat-button>OK</button>
         </div>
         <button mat-fab id="project-plus">plus</button>
     </mat-sidenav>
