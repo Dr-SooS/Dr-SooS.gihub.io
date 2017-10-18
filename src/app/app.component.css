@@ -62,16 +62,36 @@ mat-sidenav {
     border-radius: 120px;
 }
 
-.date-block {
-    width: 80%;
-    margin: auto;
-}
-
 #tasks mat-card {
     border-radius: 10px;
+    width: 80%;
+    margin: 30px auto;
 }
 
 .task {
     margin: 15px 0;
     cursor: pointer ;
+}
+
+#task-toolbar {
+  background: rgb(41, 41, 51);
+  color: white;
+}
+
+mat-sidenav[position="end"] {
+  padding: 20px 60px;
+}
+
+mat-sidenav[position="end"] mat-form-field {
+  width: 100%;
+}
+
+#task-ok {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+#new-project-form {
+  padding: 30px 30px;
 }
