@@ -6,54 +6,55 @@
         </div>
         <div id="projects">
             <div
-              class="project"
-              *ngFor="let project of projects"
-              (click)="showProjectTasks(project['Project'])"
-              [class.selectedProject]="project['Project'] === selectedProject">
-              {{ project['Project'].title }} <span>{{ project['Project'].task_count }}</span>
+                    class="project"
+                    *ngFor="let project of projects"
+                    (click)="showProjectTasks(project['Project'])"
+                    [class.selectedProject]="project['Project'] === selectedProject">
+                {{ project['Project'].title }} <span>{{ project['Project'].task_count }}</span>
             </div>
         </div>
         <div id="new-project-form">
-          <mat-form-field>
-            <input matInput placeholder="New Title" [(ngModel)]="newProjectTitle">
-          </mat-form-field>
-          <button mat-button>OK</button>
+            <mat-form-field>
+                <input matInput placeholder="New Title" [(ngModel)]="newProjectTitle">
+            </mat-form-field>
+            <button mat-button (click)="addProject()" *ngIf="!editProj">OK</button>
+            <button mat-button (click)="updateProject()" *ngIf="editProj">OK</button>
+            <button mat-button (click)="editProj = false;" *ngIf="editProj">cancel</button>
         </div>
         <button mat-fab class="fab-button">plus</button>
-        <button mat-fab class="fab-button">ok</button>
     </mat-sidenav>
 
     <mat-sidenav #snd mode="over" position="end">
         <mat-toolbar id="task-toolbar">
-            <button mat-button (click)="editTask = true">edit</button>
-            <button mat-button (click)="editTask = false">cancel</button>
-            <button mat-button>trash</button>
+            <button mat-button (click)="editTask = true" *ngIf="!editTask">edit</button>
+            <button mat-button (click)="editTask = false" *ngIf="editTask">cancel</button>
+            <button mat-button (click)="deleteTask()">trash</button>
         </mat-toolbar>
         <div *ngIf="selectedTsk">
-          <p id="task-details-title">{{ selectedTsk.title }}</p>
-          <p id="task-details-desc">{{ selectedTsk.description }}</p>
+            <p id="task-details-title">{{ selectedTsk.title }}</p>
+            <p id="task-details-desc">{{ selectedTsk.description }}</p>
         </div>
         <mat-form-field>
-          <input matInput placeholder="New Title" [(ngModel)]="newTaskTitle">
+            <input matInput placeholder="New Title" [(ngModel)]="newTaskTitle">
         </mat-form-field>
         <mat-form-field>
-          <textarea matInput placeholder="New Title" [(ngModel)]="newTaskDesc"></textarea>
+            <textarea matInput placeholder="New Title" [(ngModel)]="newTaskDesc"></textarea>
         </mat-form-field>
-        <button mat-fab class="fab-button" *ngIf="editTask">ok</button>
+        <button mat-fab class="fab-button" *ngIf="editTask" (click)="updateTask()">ok</button>
         <button mat-fab class="fab-button" *ngIf="!editTask" (click)="addTask()">ok</button>
     </mat-sidenav>
 
     <mat-toolbar id="project-toolbar">
         <span>Application Title</span>
         <button mat-button (click)="snd.toggle(); editTask=false;">plus</button>
-        <button mat-button>edit</button>
-        <button mat-button>trash</button>
+        <button mat-button (click)="editProj = true;">edit</button>
+        <button mat-button (click)="deleteProject()">trash</button>
     </mat-toolbar>
     <div id="tasks">
         <mat-card *ngIf="tasks && tasks.length !== 0">
             <div class="task" *ngFor="let task of tasks">
                 <mat-radio-group>
-                    <mat-radio-button value="1"></mat-radio-button>
+                    <mat-radio-button value="1" (click)="selectedTsk = task['Task']; deleteTask();"></mat-radio-button>
                     <span (click)="showTaskDetails(snd, task['Task'].id)">{{ task["Task"].title }}</span>
                 </mat-radio-group>
             </div>

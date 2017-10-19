@@ -24,19 +24,19 @@ export class ProjectsService {
       );
     }
     createProject(title: string): Observable<Project> {
-      return this.http.post(this.host.host + 'api/project/projects', {
+      return this.http.post(this.host.host + 'api/projects/project', {
         'session': this.cookie.get('session'),
         'Project': {'title': title}
       });
     }
     updateProject(id: number, title: string): Observable<Project> {
-      return this.http.put(this.host.host + 'api/project/projects', {
+      return this.http.put(this.host.host + 'api/projects/project', {
         'session': this.cookie.get('session'),
         'Project': {'id': id, 'title': title}
       });
     }
     deleteProject(id: number): Observable<Project> {
-      return this.http.delete(this.host.host + 'api/project/projects', {params: new HttpParams()
+      return this.http.delete(this.host.host + 'api/projects/project', {params: new HttpParams()
         .set('session', this.cookie.get('session'))
         .set('project_id', id.toString())});
     }

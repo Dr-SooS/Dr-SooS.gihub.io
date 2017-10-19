@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
     newTaskTitle: string;
     newTaskDesc: string;
     editTask: boolean;
+    editProj: boolean;
 
     constructor(
         public cookieService: CookieService,
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
         public tasksService: TasksService
     ) {
       this.editTask = false;
+      this.editProj = false;
     }
 
     ngOnInit(): void {
@@ -49,6 +51,27 @@ export class AppComponent implements OnInit {
            this.tasks = data['tasks'] as Task[];
         });
     }
+    addProject(): void {
+        this.projectsService.createProject(this.newProjectTitle).subscribe(data => {
+            this.projectsService.getProjects().subscribe(data => {
+                this.projects = data['projects'] as Project[];
+            });
+        });
+    }
+    updateProject(): void {
+        this.projectsService.updateProject(this.selectedProject.id, this.newProjectTitle).subscribe(data => {
+            this.projectsService.getProjects().subscribe(data => {
+                this.projects = data['projects'] as Project[];
+            });
+        });
+    }
+    deleteProject(): void {
+        this.projectsService.deleteProject(this.selectedProject.id).subscribe(data => {}, data => {
+            this.projectsService.getProjects().subscribe(data => {
+                this.projects = data['projects'] as Project[];
+            });
+        });
+    }
     showTaskDetails(sn: any, task_id: number): void {
       sn.toggle();
       this.tasksService.getTask(task_id).subscribe(data => {
@@ -61,5 +84,21 @@ export class AppComponent implements OnInit {
           this.tasks = data['tasks'] as Task[];
         });
       });
+    }
+    updateTask() {
+        this.tasksService.updateTask(this.newTaskTitle, this.newTaskDesc, this.selectedTsk.id).subscribe(data => {
+            console.log(data);
+            this.tasksService.getTasks(this.selectedProject.id).subscribe(data => {
+                this.tasks = data['tasks'] as Task[];
+            });
+        });
+    }
+    deleteTask() {
+        this.tasksService.deleteTask(this.selectedTsk.id).subscribe(data => {}, data => {
+            this.selectedProject.task_count -= 1;
+            this.tasksService.getTasks(this.selectedProject.id).subscribe(data => {
+                this.tasks = data['tasks'] as Task[];
+            });
+        });
     }
 }
