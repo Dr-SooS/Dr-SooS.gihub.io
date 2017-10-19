@@ -41,6 +41,7 @@ mat-sidenav {
     height: 35px;
     width: 100%;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .project span {
@@ -48,11 +49,10 @@ mat-sidenav {
 }
 
 .project:hover {
-    border-radius: 10px;
     background: rgb(107, 107, 153);
 }
 
-#project-plus {
+.fab-button {
     position: absolute;
     right: 20px;
     bottom: 20px;
@@ -60,6 +60,10 @@ mat-sidenav {
 
 #project-toolbar button {
     border-radius: 120px;
+}
+
+.selectedProject {
+  background: rgb(107, 107, 153);
 }
 
 #tasks mat-card {
@@ -84,12 +88,6 @@ mat-sidenav[position="end"] {
 
 mat-sidenav[position="end"] mat-form-field {
   width: 100%;
-}
-
-#task-ok {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
 }
 
 #new-project-form {
