@@ -80,6 +80,7 @@ export class AppComponent implements OnInit {
     }
     addTask(): void {
       this.tasksService.createTask(this.newTaskTitle, this.newTaskDesc, this.selectedProject.id).subscribe(data => {
+          this.selectedProject.task_count += 1;
         this.tasksService.getTasks(this.selectedProject.id).subscribe(data => {
           this.tasks = data['tasks'] as Task[];
         });
